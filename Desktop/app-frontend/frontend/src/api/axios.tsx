@@ -18,4 +18,14 @@ export const wilksApi = axios.create({
     withCredentials: true,
 });
 
+const apis = [userApi, profileApi, wilksApi];
+
+apis.forEach(api => {
+    api.interceptors.request.use(config => {
+        const token = localStorage.getItem('token');
+        if (token) config.headers.Authorization = `Bearer ${token}`;
+        return config;
+    });
+});
+
 export default userApi;
